@@ -1,4 +1,4 @@
-package com.example.earthquakee;
+package com.example.earthquakee.MessagingService;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.earthquakee.Model.Users;
+import com.example.earthquakee.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

@@ -1,4 +1,4 @@
-package com.example.earthquakee;
+package com.example.earthquakee.API;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;

@@ -14,8 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.earthquakee.Adapter.EqAdapter;
-import com.example.earthquakee.ApiClient;
-import com.example.earthquakee.MainActivity;
+import com.example.earthquakee.API.ApiClient;
 import com.example.earthquakee.Model.Users;
 import com.example.earthquakee.R;
 import com.example.earthquakee.databinding.FragmentUsersBinding;
