@@ -1,6 +1,13 @@
 package com.example.earthquakee.Fragment;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,6 +18,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -35,12 +44,14 @@ public class FragmentLogin extends Fragment {
     private FirebaseFirestore mFirestore;
 
     private DocumentReference docRef;
+    private static final String CHANNEL_ID = "my_Channel";
+
 
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_sign, container, false);
-        
+        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+
 
 
 
@@ -55,8 +66,7 @@ public class FragmentLogin extends Fragment {
         buttonSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                girisYap();
-
+                 girisYap();
             }
         });
 
@@ -76,9 +86,6 @@ return rootView;
 
 
 
-                            System.out.println("Kullanıcı adi : " + mUser.getDisplayName());
-                            System.out.println("Email  : " + mUser.getEmail());
-                            System.out.println("Kullanıcı adi : " + mUser.getUid());
 
                             assert mUser != null;
                             verileriGetir(mUser.getUid());
@@ -102,6 +109,9 @@ return rootView;
 
     }
 
+
+
+
     private void verileriGetir(String uid){
        docRef= mFirestore.collection("Users").document(uid);
        docRef.get()
@@ -109,7 +119,7 @@ return rootView;
                    @Override
                    public void onSuccess(DocumentSnapshot documentSnapshot) {
                        if(documentSnapshot.exists()){
-                           System.out.println(documentSnapshot.getData());
+
                        }
 
                    }

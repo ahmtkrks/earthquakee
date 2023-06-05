@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.earthquakee.Adapter.EqAdapter;
+import com.example.earthquakee.ApiClient;
 import com.example.earthquakee.MainActivity;
 import com.example.earthquakee.Model.Users;
 import com.example.earthquakee.R;
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class FragmentUsers extends Fragment {
@@ -117,8 +119,14 @@ public class FragmentUsers extends Fragment {
                         // Get new FCM registration token
                         String token = task.getResult();
 
+                        try {
+                            ApiClient.saveToken(token);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
                         // Log and toast
-                        Log.e("token", token);
+                        Log.e("tokennnn", token);
                     }
                 });
     }

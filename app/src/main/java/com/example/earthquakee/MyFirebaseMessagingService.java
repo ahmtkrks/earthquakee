@@ -13,40 +13,40 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.earthquakee.Model.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.io.IOException;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
+
+
+
+    private FirebaseUser fUser;
+    private Users mUser;
+
+    private FirebaseAuth mAuth;
+
 
     private static final String CHANNEL_ID = "my_Channel";
     private static final String CHANNEL_NAME = "My Channel";
     private static final String CHANNEL_DESCRIPTION = "Description of My Channel";
 
+
+
     @Override
-    public void onCreate() {
-        super.onCreate();
+    public void onNewToken(String token){
+        super.onNewToken(token);
+        Log.d("asjldaskldjaslk", "Token: " + token);
 
-        // FirebaseMessagingService'i başlat
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("TAG", "Token alınamadı.", task.getException());
-                            return;
-                        }
-
-                        // Token başarıyla alındı
-                        String token = task.getResult();
-
-                        // Alınan token'u kullanarak gereken işlemleri yapabilirsiniz (örneğin, sunucuya göndermek)
-                        Log.d("TAG", "Token: " + token);
-                    }
-                });
     }
+
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -102,4 +102,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
+
 }
