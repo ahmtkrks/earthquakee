@@ -33,13 +33,11 @@ import java.util.ArrayList;
 public class FragmentUsers extends Fragment {
 
 
-    private  FragmentUsersBinding fBinding;
     private RecyclerView rv;
 
     private Users mModelUSer;
     private ArrayList<Users> mUsersList;
     private EqAdapter eqAdapter;
-    private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
     private FirebaseFirestore mFirestore;
@@ -51,40 +49,38 @@ public class FragmentUsers extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_users, container, false);
 
-        mUser=FirebaseAuth.getInstance().getCurrentUser();
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        mFirestore= FirebaseFirestore.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
 
         mUsersList = new ArrayList<>();
 
 
-
-
-        rv= rootView.findViewById(R.id.rv);
+        rv = rootView.findViewById(R.id.rv);
         rv.setHasFixedSize(true);
-        rv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
         mQuery = mFirestore.collection("Users");
 
 
         mQuery.addSnapshotListener((value, error) -> {
-            if(error != null) {
+            if (error != null) {
                 Toast.makeText(requireContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(value != null){
+            if (value != null) {
                 mUsersList.clear();
 
-                for(DocumentSnapshot snapshot : value.getDocuments()){
+                for (DocumentSnapshot snapshot : value.getDocuments()) {
                     mModelUSer = snapshot.toObject(Users.class);
 
                     assert mModelUSer != null;
-                        if(!mModelUSer.getUid().equals(mUser.getUid())){
+                    if (!mModelUSer.getUid().equals(mUser.getUid())) {
                         mUsersList.add(mModelUSer);
                     }
 
-                    eqAdapter = new EqAdapter(requireContext(),mUsersList);
+                    eqAdapter = new EqAdapter(requireContext(), mUsersList);
                     rv.setAdapter(eqAdapter);
                 }
 
@@ -115,7 +111,6 @@ public class FragmentUsers extends Fragment {
                             return;
                         }
 
-                        // Get new FCM registration token
                         String token = task.getResult();
 
                         try {
@@ -124,7 +119,6 @@ public class FragmentUsers extends Fragment {
                             throw new RuntimeException(e);
                         }
 
-                        // Log and toast
                         Log.e("tokennnn", token);
                     }
                 });

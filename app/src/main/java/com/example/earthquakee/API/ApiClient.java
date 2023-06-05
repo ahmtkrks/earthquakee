@@ -1,16 +1,18 @@
 package com.example.earthquakee.API;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 public class ApiClient {
 
     private static final String API_URL = "https://afk-backend-production.up.railway.app/";
 
     public static String saveToken(String token) throws IOException {
-        URL url = new URL(API_URL+ "save");
+        URL url = new URL(API_URL + "save");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setDoOutput(true);
@@ -45,7 +47,6 @@ public class ApiClient {
         // Return the response as a string
         return response.toString();
     }
-
 
 
     public static String earthquake() throws IOException {

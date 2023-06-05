@@ -36,15 +36,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FragmentLogin extends Fragment {
     private Button buttonSign;
-    private EditText editEmail,editPassaword,editName;
-    private String txtEmail,txtPassaword;
+    private EditText editEmail, editPassaword;
+    private String txtEmail, txtPassaword;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
     private FirebaseFirestore mFirestore;
 
     private DocumentReference docRef;
-    private static final String CHANNEL_ID = "my_Channel";
 
 
     @SuppressLint("MissingInflatedId")
@@ -53,38 +52,34 @@ public class FragmentLogin extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
 
-
-
-        editEmail=rootView.findViewById(R.id.signEmail);
-        editPassaword=rootView.findViewById(R.id.signPassaword);
+        editEmail = rootView.findViewById(R.id.signEmail);
+        editPassaword = rootView.findViewById(R.id.signPassaword);
         buttonSign = rootView.findViewById(R.id.buttonLogin);
-        mAuth =FirebaseAuth.getInstance();
-        mFirestore=FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
 
 
         buttonSign = rootView.findViewById(R.id.buttonLogin);
         buttonSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 girisYap();
+                girisYap();
             }
         });
 
-return rootView;
+        return rootView;
     }
 
     private void girisYap() {
-        txtEmail=editEmail.getText().toString();
-        txtPassaword=editPassaword.getText().toString();
+        txtEmail = editEmail.getText().toString();
+        txtPassaword = editPassaword.getText().toString();
 
-        if(!TextUtils.isEmpty(txtEmail)&& !TextUtils.isEmpty(txtPassaword)){
-            mAuth.signInWithEmailAndPassword(txtEmail,txtPassaword)
+        if (!TextUtils.isEmpty(txtEmail) && !TextUtils.isEmpty(txtPassaword)) {
+            mAuth.signInWithEmailAndPassword(txtEmail, txtPassaword)
                     .addOnSuccessListener(getActivity(), new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
-                            mUser =mAuth.getCurrentUser();
-
-
+                            mUser = mAuth.getCurrentUser();
 
 
                             assert mUser != null;
@@ -93,7 +88,7 @@ return rootView;
                             FragmentUsers fragmentUsers = new FragmentUsers();
                             FragmentManager fm = getFragmentManager();
                             FragmentTransaction ft = fm.beginTransaction();
-                            ft.replace(R.id.fragmentHolder,fragmentUsers);
+                            ft.replace(R.id.fragmentHolder, fragmentUsers);
                             ft.commit();
 
 
@@ -104,30 +99,28 @@ return rootView;
                             Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
-        }else
+        } else
             Toast.makeText(requireContext(), "Email ve Şifre Boş Olamaz ! ", Toast.LENGTH_SHORT).show();
 
     }
 
 
+    private void verileriGetir(String uid) {
+        docRef = mFirestore.collection("Users").document(uid);
+        docRef.get()
+                .addOnSuccessListener(getActivity(), new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
 
+                        }
 
-    private void verileriGetir(String uid){
-       docRef= mFirestore.collection("Users").document(uid);
-       docRef.get()
-               .addOnSuccessListener(getActivity(), new OnSuccessListener<DocumentSnapshot>() {
-                   @Override
-                   public void onSuccess(DocumentSnapshot documentSnapshot) {
-                       if(documentSnapshot.exists()){
-
-                       }
-
-                   }
-               }).addOnFailureListener(getActivity(), new OnFailureListener() {
-                   @Override
-                   public void onFailure(@NonNull Exception e) {
-                       Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                   }
-               });
+                    }
+                }).addOnFailureListener(getActivity(), new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

@@ -31,14 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fm;
 
-    private Users users;
-
-    private NotificationCompat.Builder builder;
-
-    private FirebaseFirestore mFirestore;
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,22 +39,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
         getSupportActionBar().hide();
 
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-
-
         fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.fragmentHolder,new FragmentSign());
+        ft.add(R.id.fragmentHolder, new FragmentSign());
         ft.commit();
-
 
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -70,14 +61,15 @@ public class MainActivity extends AppCompatActivity {
             sensorManager.unregisterListener(listener);
         }
     }
+
     private SensorEventListener listener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-// The acceleration may be negative, so take their absolute value
+            
             float xValue = Math.abs(event.values[0]);
             float yValue = Math.abs(event.values[1]);
             float zValue = Math.abs(event.values[2]);
-            if (xValue > 30|| yValue > 30 || zValue > 30) {
+            if (xValue > 30 || yValue > 30 || zValue > 30) {
                 Toast.makeText(MainActivity.this, "Depremm", Toast.LENGTH_SHORT).show();
 
 
@@ -87,16 +79,12 @@ public class MainActivity extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
 
-
             }
-
-// message for user
-
-            }
+        }
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }
     };
 
-    }
+}

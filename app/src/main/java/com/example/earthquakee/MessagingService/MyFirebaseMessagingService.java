@@ -27,22 +27,10 @@ import java.io.IOException;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-
-
-    private FirebaseUser fUser;
-    private Users mUser;
-
-    private FirebaseAuth mAuth;
-
-
     private static final String CHANNEL_ID = "my_Channel";
-    private static final String CHANNEL_NAME = "My Channel";
-    private static final String CHANNEL_DESCRIPTION = "Description of My Channel";
-
-
 
     @Override
-    public void onNewToken(String token){
+    public void onNewToken(String token) {
         super.onNewToken(token);
         Log.d("asjldaskldjaslk", "Token: " + token);
 
@@ -52,12 +40,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        // Gelen bildirimi işleyin
+
         if (remoteMessage.getNotification() != null) {
             String title = remoteMessage.getNotification().getTitle();
             String body = remoteMessage.getNotification().getBody();
-
-            // Bildirimi göstermek için uygun yöntemi çağırın (örneğin, bildirim çubuğunda gösterme)
             showNotification(title, body);
         }
     }
@@ -69,7 +55,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         createNotificationChannel();
 
 
-        // 1. Bildirimi oluştur
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
@@ -79,7 +64,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setAutoCancel(true);
 
-        // 2. Bildirimi göster
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(0, builder.build());
     }
@@ -92,7 +76,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
 
-            // Bildirim tonunu ve titreşimi ayarla (isteğe bağlı)
             channel.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION), new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                     .build());

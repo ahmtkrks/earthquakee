@@ -22,36 +22,34 @@ import java.util.List;
 public class EqAdapter extends RecyclerView.Adapter<EqAdapter.CardViewItemHolder> {
     private Context mContext;
     private Users mUser;
-    private List<Users>  mUsersList;
+    private List<Users> mUsersList;
 
     public EqAdapter(Context mContext, ArrayList<Users> mUsersList) {
         this.mContext = mContext;
         this.mUsersList = mUsersList;
     }
 
-    public class CardViewItemHolder extends RecyclerView.ViewHolder{
+    public class CardViewItemHolder extends RecyclerView.ViewHolder {
 
         public ImageView imageUser;
 
-        public TextView  textUserName;
-        public Button    buttonInformation;
-
-
+        public TextView textUserName;
+        public Button buttonInformation;
 
 
         public CardViewItemHolder(@NonNull View itemView) {
             super(itemView);
-            textUserName=itemView.findViewById(R.id.textUserName);
+            textUserName = itemView.findViewById(R.id.textUserName);
             imageUser = itemView.findViewById(R.id.imageUser);
-            buttonInformation=itemView.findViewById(R.id.buttonInformation);
+            buttonInformation = itemView.findViewById(R.id.buttonInformation);
         }
     }
 
     @NonNull
     @Override
     public CardViewItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView= LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_users,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.card_users, parent, false);
         return new CardViewItemHolder(itemView);
     }
 

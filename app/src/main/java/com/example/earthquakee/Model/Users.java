@@ -7,7 +7,7 @@ public class Users {
 
     public String userProfile;
 
-    public Users(String name, String email,String uid,String userProfile) {
+    public Users(String name, String email, String uid, String userProfile) {
         this.name = name;
         this.email = email;
         this.uid = uid;

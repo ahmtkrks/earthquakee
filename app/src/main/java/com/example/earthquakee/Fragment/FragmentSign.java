@@ -36,15 +36,12 @@ public class FragmentSign extends Fragment {
     private Users mUsers;
     private Button buttonSign;
     private TextView txtLogin;
-    private EditText editEmail,editPassaword,editName;
-    private String txtEmail,txtPassaword,txtName;
+    private EditText editEmail, editPassaword, editName;
+    private String txtEmail, txtPassaword, txtName;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private DatabaseReference mReference;
-    private HashMap<String,Object> mData;
     private FirebaseFirestore mFirestore;
-
-
 
 
     @SuppressLint("MissingInflatedId")
@@ -53,17 +50,17 @@ public class FragmentSign extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sign, container, false);
 
-        editEmail=rootView.findViewById(R.id.editEmail);
-        editPassaword=rootView.findViewById(R.id.editPassaword);
-        editName=rootView.findViewById(R.id.editName);
+        editEmail = rootView.findViewById(R.id.editEmail);
+        editPassaword = rootView.findViewById(R.id.editPassaword);
+        editName = rootView.findViewById(R.id.editName);
         buttonSign = rootView.findViewById(R.id.buttonSign);
 
-        txtLogin =rootView.findViewById(R.id.txtLogin);
+        txtLogin = rootView.findViewById(R.id.txtLogin);
 
 
-        mAuth =FirebaseAuth.getInstance();
-        mReference= FirebaseDatabase.getInstance().getReference();
-        mFirestore=FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        mReference = FirebaseDatabase.getInstance().getReference();
+        mFirestore = FirebaseFirestore.getInstance();
 
         txtLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,14 +74,12 @@ public class FragmentSign extends Fragment {
         });
 
 
-
-
-       buttonSign.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               kayitOl();
-           }
-       });
+        buttonSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                kayitOl();
+            }
+        });
 
         return rootView;
     }
@@ -92,21 +87,21 @@ public class FragmentSign extends Fragment {
 
     private void kayitOl() {
         txtEmail = editEmail.getText().toString();
-        txtPassaword=editPassaword.getText().toString();
+        txtPassaword = editPassaword.getText().toString();
         txtName = editName.getText().toString();
 
 
-        if(!TextUtils.isEmpty((txtName))&&!TextUtils.isEmpty(txtEmail)&& !TextUtils.isEmpty(txtPassaword)){
-            mAuth.createUserWithEmailAndPassword(txtEmail,txtPassaword)
+        if (!TextUtils.isEmpty((txtName)) && !TextUtils.isEmpty(txtEmail) && !TextUtils.isEmpty(txtPassaword)) {
+            mAuth.createUserWithEmailAndPassword(txtEmail, txtPassaword)
                     .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
-                            if(task.isSuccessful()){
-                                mUser =mAuth.getCurrentUser();
+                            if (task.isSuccessful()) {
+                                mUser = mAuth.getCurrentUser();
 
-                                if(mUser != null){
-                                    mUsers= new Users(txtName,txtEmail,mUser.getUid(),"default");
+                                if (mUser != null) {
+                                    mUsers = new Users(txtName, txtEmail, mUser.getUid(), "default");
 
                                     mFirestore.collection("Users").document(mUser.getUid())
                                             .set(mUsers)
@@ -114,7 +109,7 @@ public class FragmentSign extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
 
-                                                    if(task.isSuccessful()){
+                                                    if (task.isSuccessful()) {
                                                         Toast.makeText(requireContext(), "Kayit İşlemi Başarili!", Toast.LENGTH_SHORT).show();
                                                         FragmentLogin fragmentSign = new FragmentLogin();
                                                         FragmentManager fm = getFragmentManager();
@@ -129,42 +124,7 @@ public class FragmentSign extends Fragment {
                                 }
 
 
-                                /*   mData = new HashMap<>();
-
-                                mData.put("kullaniciAdi", txtName);
-                                mData.put("kullaniciEmail",txtEmail);
-                                mData.put("kulliniciSifre",txtPassaword);
-                                mData.put("kullaniciId",mUser.getUid());*/
-
-
-
-
-                                /*    mReference.child("Users")
-                                      .child(mUser.getUid())
-                                        .setValue(mData)
-                                                .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if(task.isSuccessful()) {
-
-                                                            Toast.makeText(requireContext(), "Kayit İşlemi Başarili!", Toast.LENGTH_SHORT).show();
-                                                            FragmentSign fragmentSign = new FragmentSign();
-                                                            FragmentManager fm = getFragmentManager();
-                                                            FragmentTransaction ft = fm.beginTransaction();
-                                                            ft.replace(R.id.fragmentHolder, fragmentSign);
-                                                            ft.commit();
-                                                        }
-
-                                                        else{
-                                                            Toast.makeText(requireContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                                        }
-
-                                                    }
-                                                }); */
-
-
-                            } else{
+                            } else {
                                 Toast.makeText(requireContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -175,7 +135,7 @@ public class FragmentSign extends Fragment {
                         }
                     });
 
-        }else
+        } else
             Toast.makeText(requireContext(), "Email ve Şifre Boş Olamaz!", Toast.LENGTH_SHORT).show();
     }
 
