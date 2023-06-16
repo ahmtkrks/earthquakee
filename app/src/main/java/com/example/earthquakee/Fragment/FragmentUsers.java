@@ -80,7 +80,7 @@ public class FragmentUsers extends Fragment {
                         mUsersList.add(mModelUSer);
                     }
 
-                    eqAdapter = new EqAdapter(requireContext(), mUsersList);
+                    eqAdapter = new EqAdapter(getActivity(), mUsersList);
                     rv.setAdapter(eqAdapter);
                 }
 

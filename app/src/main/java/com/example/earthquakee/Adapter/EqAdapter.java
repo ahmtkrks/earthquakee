@@ -1,7 +1,9 @@
 package com.example.earthquakee.Adapter;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +13,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.earthquakee.Fragment.FragmentInformation;
+import com.example.earthquakee.Fragment.FragmentLogin;
+import com.example.earthquakee.Fragment.FragmentUsers;
 import com.example.earthquakee.R;
 import com.example.earthquakee.Model.Users;
+import com.example.earthquakee.SplashActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +33,8 @@ public class EqAdapter extends RecyclerView.Adapter<EqAdapter.CardViewItemHolder
     private Context mContext;
     private Users mUser;
     private List<Users> mUsersList;
+
+    private SplashActivity ls;
 
     public EqAdapter(Context mContext, ArrayList<Users> mUsersList) {
         this.mContext = mContext;
@@ -54,7 +66,7 @@ public class EqAdapter extends RecyclerView.Adapter<EqAdapter.CardViewItemHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CardViewItemHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CardViewItemHolder holder, @SuppressLint("RecyclerView") int position) {
 
         mUser = mUsersList.get(position);
 
@@ -63,7 +75,22 @@ public class EqAdapter extends RecyclerView.Adapter<EqAdapter.CardViewItemHolder
         holder.buttonInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, mUsersList.get(position).getUid(), Toast.LENGTH_SHORT).show();
+
+                FragmentInformation fragmentInformation = new FragmentInformation();
+
+                Bundle args = new Bundle();
+                args.putString("latitude",mUsersList.get(position).getLatiude());
+                args.putString("longtiude",mUsersList.get(position).getLongtiude());
+                fragmentInformation.setArguments(args);
+
+                FragmentManager fm = ((FragmentActivity)mContext).getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.fragmentHolder, fragmentInformation);
+                ft.addToBackStack(null);
+                ft.commit();
+
+
+
             }
         });
 

@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.earthquakee.MainActivity;
 import com.example.earthquakee.Model.Users;
 import com.example.earthquakee.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,6 +45,8 @@ public class FragmentSign extends Fragment {
     private FirebaseFirestore mFirestore;
 
 
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +61,8 @@ public class FragmentSign extends Fragment {
         txtLogin = rootView.findViewById(R.id.txtLogin);
 
 
+
+
         mAuth = FirebaseAuth.getInstance();
         mReference = FirebaseDatabase.getInstance().getReference();
         mFirestore = FirebaseFirestore.getInstance();
@@ -69,6 +74,7 @@ public class FragmentSign extends Fragment {
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.fragmentHolder, fragmentSign);
+                ft.addToBackStack(null);
                 ft.commit();
             }
         });
@@ -101,7 +107,9 @@ public class FragmentSign extends Fragment {
                                 mUser = mAuth.getCurrentUser();
 
                                 if (mUser != null) {
-                                    mUsers = new Users(txtName, txtEmail, mUser.getUid(), "default");
+                                    MainActivity activity = (MainActivity) getActivity();
+                                    assert activity != null;
+                                    mUsers = new Users(txtName, txtEmail, mUser.getUid(), "default",activity.latitude, activity.longtiude);
 
                                     mFirestore.collection("Users").document(mUser.getUid())
                                             .set(mUsers)
@@ -111,10 +119,14 @@ public class FragmentSign extends Fragment {
 
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(requireContext(), "Kayit İşlemi Başarili!", Toast.LENGTH_SHORT).show();
-                                                        FragmentLogin fragmentSign = new FragmentLogin();
+
+
+
+                                                        FragmentLogin fragmentLogin = new FragmentLogin();
                                                         FragmentManager fm = getFragmentManager();
                                                         FragmentTransaction ft = fm.beginTransaction();
-                                                        ft.replace(R.id.fragmentHolder, fragmentSign);
+                                                        ft.replace(R.id.fragmentHolder, fragmentLogin,"Fragment Login");
+                                                        ft.addToBackStack(null);
                                                         ft.commit();
 
                                                     }

@@ -12,10 +12,10 @@ public class ApiClient {
     private static final String API_URL = "https://afk-backend-production.up.railway.app/";
 
     public static String saveToken(String token) throws IOException {
-        URL url = new URL(API_URL + "save");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        URL url = new URL(API_URL + "save"); //API_URL Değişkeniyle birlikte save yolunu içerenbir url oluşturuluyor
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection(); // url üzerinden bir http bağlantısı oluşturuyorum
         conn.setRequestMethod("POST");
-        conn.setDoOutput(true);
+        conn.setDoOutput(true); // bağlantının çıktı vermesine izin veriyorum
         conn.setRequestProperty("Content-Type", "application/json");
 
         // Create the JSON request body
@@ -29,8 +29,8 @@ public class ApiClient {
 
         // Get the response
         int responseCode = conn.getResponseCode();
-        StringBuilder response = new StringBuilder();
-        BufferedReader reader;
+        StringBuilder response = new StringBuilder(); // yanıtı depolamak için stringbuilder
+        BufferedReader reader; // yanıtı okumak için
 
         if (responseCode == HttpURLConnection.HTTP_OK) {
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));

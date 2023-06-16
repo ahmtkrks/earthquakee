@@ -88,7 +88,9 @@ public class FragmentLogin extends Fragment {
                             FragmentUsers fragmentUsers = new FragmentUsers();
                             FragmentManager fm = getFragmentManager();
                             FragmentTransaction ft = fm.beginTransaction();
-                            ft.replace(R.id.fragmentHolder, fragmentUsers);
+                            ft.replace(R.id.fragmentHolder, fragmentUsers,"Fragment Users");
+
+                            ft.addToBackStack(null);
                             ft.commit();
 
 
@@ -119,7 +121,7 @@ public class FragmentLogin extends Fragment {
                 }).addOnFailureListener(getActivity(), new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
